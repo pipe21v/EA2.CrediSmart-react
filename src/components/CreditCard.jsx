@@ -2,7 +2,7 @@ import React from 'react';
 
 const CreditCard = ({ name, descripcion, image, interestRate, maxTerm, minAmount, maxAmount }) => {
   
-  // Función para que los números se vean en pesos COP
+  // Función para que los números se vean en pesos ccop
   const formatMoney = (value) => {
     return new Intl.NumberFormat('es-CO', {
       style: 'currency',

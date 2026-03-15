@@ -7,3 +7,8 @@ Desarrollo de Aplicación Web Dinámica con React donde ahora los datos se manej
 
 Estructura de Archivos
 
+## Capturas de Pantalla
+
+![inicio](public/img/captura1.png)
+![simulador]()
+![solicitar]()

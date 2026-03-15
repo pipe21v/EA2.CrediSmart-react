@@ -1,4 +1,4 @@
-/* Colores personalizados */
+/* Colores personalizados - Optimizados */
 .bg-orange {
   background-color: #FF5733 !important;
 }
@@ -12,17 +12,20 @@
 }
 
 .btn-orange {
-  background-color: #FF5733;
-  color: white;
+  background-color: #FF5733 !important;
+  color: white !important;
   border: none;
   font-weight: bold;
+  padding: 10px 20px;
+  transition: 0.3s;
 }
 
 .btn-orange:hover {
-  background-color: #E64A19;
-  color: white;
+  background-color: #E64A19 !important;
+  color: white !important;
+  transform: translateY(-2px);
 }
 
 .text-dark-blue {
-  color: #001F3F;
+  color: #001F3F !important;
 }

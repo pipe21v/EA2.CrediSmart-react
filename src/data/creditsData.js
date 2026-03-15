@@ -56,7 +56,7 @@ export const creditsData = [
   },
 
   {
-    id: 5,
+    id: 6,
     name: "Crédito Compra de Cartera",
     descripcion: "Libérate de las deudas caras. Unificamos tus pagos en una sola cuota menor para que recuperes tu tranquilidad financiera.",
     minAmount: 5000000,
