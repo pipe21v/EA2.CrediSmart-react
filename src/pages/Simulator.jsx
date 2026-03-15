@@ -1,18 +1,16 @@
 import React, { useState } from 'react';
 
 const Simulator = () => {
-  // 1. Estados para capturar los datos del usuario
-  // Iniciamos en 1.000.000 para que no aparezca en $0 al entrar
+  // ingresar daatos captura de datos
   const [monto, setMonto] = useState(1000000);
   const [plazo, setPlazo] = useState(12);
-  const tasaMensual = 0.018; // Tasa del 1.8% Mes Vencido
+  const tasaMensual = 0.018; 
 
-  // 2. Lógica Financiera (Fórmula de cuota nivelada / Sistema Francés)
+  // Lógica para calcular cuota
   const calcularCuota = () => {
     if (monto <= 0) return 0;
     const i = tasaMensual;
     const n = plazo;
-    // Fórmula: C = [P * i * (1 + i)^n] / [(1 + i)^n - 1]
     const cuota = (monto * i * Math.pow(1 + i, n)) / (Math.pow(1 + i, n) - 1);
     return cuota;
   };
@@ -38,19 +36,19 @@ const Simulator = () => {
             <h3 className="text-center fw-bold mb-5 text-dark-blue">
               Ingresa Los Datos Y Calcula El Valor Aproximado De Tu Cuota
             </h3>
-            
+
             <div className="row">
               {/* Columna de Entradas (Inputs) */}
               <div className="col-md-6">
                 <label className="fw-bold text-orange h5">Valor Del Crédito</label>
-                <input 
-                  type="number" 
-                  className={`form-control form-control-lg border-0 border-bottom rounded-0 mb-2 ${monto > 500000000 ? 'is-invalid' : ''}`} 
+                <input
+                  type="number"
+                  className={`form-control form-control-lg border-0 border-bottom rounded-0 mb-2 ${monto > 500000000 ? 'is-invalid' : ''}`}
                   placeholder="Ej: 1000000"
                   value={monto}
                   onChange={(e) => setMonto(Number(e.target.value))}
                 />
-                
+
                 {monto > 500000000 ? (
                   <div className="text-danger small mb-3">El monto máximo es de $500.000.000</div>
                 ) : (
@@ -58,8 +56,8 @@ const Simulator = () => {
                 )}
 
                 <label className="fw-bold text-orange h5">Plazo En Meses</label>
-                <select 
-                  className="form-select form-select-lg border-0 border-bottom rounded-0 mb-5" 
+                <select
+                  className="form-select form-select-lg border-0 border-bottom rounded-0 mb-5"
                   value={plazo}
                   onChange={(e) => setPlazo(Number(e.target.value))}
                 >

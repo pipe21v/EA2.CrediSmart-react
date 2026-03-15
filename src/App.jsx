@@ -9,18 +9,18 @@ function App() {
   return (
     <Router>
       <div className="min-vh-100 d-flex flex-column">
-        
+
         {/* Navbar */}
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark-blue px-4 py-2">
           <div className="container">
             <Link to="/" className="navbar-brand">
-              <img 
+              <img
                 src="/img/logo.png"
-                alt="CrediSmart Logo" 
-                style={{ height: '50px', width: 'auto' }} 
+                alt="CrediSmart Logo"
+                style={{ height: '50px', width: 'auto' }}
               />
             </Link>
-            
+
             <div className="ms-auto">
               <Link to="/" className="text-white text-decoration-none me-4 fw-bold">INICIO</Link>
               <Link to="/simulator" className="text-white text-decoration-none fw-bold">SIMULADOR</Link>
@@ -43,9 +43,9 @@ function App() {
           <div className="container text-center">
             <div className="row align-items-center">
               <div className="col-md-4 text-md-start mb-3 mb-md-0">
-                <img 
-                  src="/img/logo.png" 
-                  alt="Logo Footer" 
+                <img
+                  src="/img/logo.png"
+                  alt="Logo Footer"
                   style={{ height: '40px', filter: 'brightness(0) invert(1)' }}
                 />
               </div>
