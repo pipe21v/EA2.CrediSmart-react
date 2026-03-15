@@ -68,3 +68,5 @@ export const creditsData = [
     },
 
 ];
+
+export default creditsData;

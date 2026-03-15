@@ -1,151 +1,197 @@
 import React, { useState, useEffect } from 'react';
+// Importamos la data para que el menú desplegable tenga los nombres reales
+import creditsData from '../data/creditsData'; 
 
-{/* CAPTURAR TODOS LOS DATOS */ }
 const Solicitar = () => {
-    const [formData, setFormData] = useState({
-        nombre: '',
-        cedula: '',
-        cedulaExtra1: '',
-        cedulaExtra2: '',
-        telefono: '',
-        email: '',
-        tipoCredito: '',
-        monto: '',
-        plazo: '12',
-        destino: '',
-        empresa: '',
-        cargo: '',
-        ingresos: ''
+  const [formData, setFormData] = useState({
+    nombre: '',
+    cedula: '',
+    telefono: '',
+    email: '',
+    tipoCredito: '',
+    monto: '',
+    plazo: '12',
+    destino: '',
+    empresa: '',
+    cargo: '',
+    ingresos: ''
+  });
+
+  const [solicitudes, setSolicitudes] = useState([]);
+  const [cuotaEstimada, setCuotaEstimada] = useState(0);
+  const [enviado, setEnviado] = useState(false);
+
+  // Lógica de cálculo en tiempo real
+  useEffect(() => {
+    const tasa = 0.018;
+    const p = parseFloat(formData.monto);
+    const n = parseInt(formData.plazo);
+    if (p > 0 && n > 0) {
+      const cuota = (p * tasa * Math.pow(1 + tasa, n)) / (Math.pow(1 + tasa, n) - 1);
+      setCuotaEstimada(cuota);
+    } else {
+      setCuotaEstimada(0);
+    }
+  }, [formData.monto, formData.plazo]);
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setSolicitudes([...solicitudes, { ...formData, id: Date.now(), cuota: cuotaEstimada }]);
+    setEnviado(true);
+    setTimeout(() => setEnviado(false), 5000);
+  };
+
+  const handleLimpiar = () => {
+    setFormData({
+      nombre: '', cedula: '', telefono: '', email: '', 
+      tipoCredito: '', monto: '', plazo: '12', destino: '', 
+      empresa: '', cargo: '', ingresos: ''
     });
+  };
 
-    const [solicitudes, setSolicitudes] = useState([]);
-    const [cuotaEstimada, setCuotaEstimada] = useState(0);
-    const [enviado, setEnviado] = useState(false);
+  return (
+    <div className="container py-5 bg-white">
+      <div className="row">
+        <div className="col-md-7">
+          <h1 className="fw-bold text-dark-blue mb-4 text-uppercase">Formulario de Solicitud</h1>
+          
+          <form onSubmit={handleSubmit}>
+            {/* datos personales */}
+            <div className="bg-light p-4 rounded mb-4 shadow-sm border-start border-orange border-4">
+              <h5 className="fw-bold text-dark-blue mb-3">Datos Personales</h5>
+              
+              <div className="mb-3">
+                <label className="text-orange small fw-bold">Nombre Completo</label>
+                <input type="text" name="nombre" className="form-control" value={formData.nombre} onChange={handleChange} required />
+              </div>
 
-    {/* calcular cuota mensual estimada */ }
-    useEffect(() => {
-        const tasa = 0.018;
-        const p = parseFloat(formData.monto);
-        const n = parseInt(formData.plazo);
-        if (p > 0 && n > 0) {
-            const cuota = (p * tasa * Math.pow(1 + tasa, n)) / (Math.pow(1 + tasa, n) - 1);
-            setCuotaEstimada(cuota);
-        } else {
-            setCuotaEstimada(0);
-        }
-    }, [formData.monto, formData.plazo]);
+              <div className="mb-3">
+                <label className="text-orange small fw-bold">Número de Cédula</label>
+                <input type="number" name="cedula" className="form-control" value={formData.cedula} onChange={handleChange} required />
+              </div>
 
-    const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
-    };
-
-    {/* para mostrar mensaje exitoso */ }
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        setSolicitudes([...solicitudes, { ...formData, id: Date.now(), cuota: cuotaEstimada }]);
-        setEnviado(true);
-        setTimeout(() => setEnviado(false), 5000);
-    };
-
-    {/* limpiar formulario */ }
-    const handleLimpiar = () => {
-        setFormData({
-            nombre: '', cedula: '', cedulaExtra1: '', cedulaExtra2: '',
-            telefono: '', email: '', tipoCredito: '', monto: '',
-            plazo: '12', destino: '', empresa: '', cargo: '', ingresos: ''
-        });
-    };
-
-    return (
-        <div className="container py-5 bg-white">
-            <div className="row">
-                <div className="col-md-7">
-                    <h1 className="fw-bold text-dark-blue mb-4">FORMULARIO</h1>
-
-                    <form onSubmit={handleSubmit}>
-                        {/* datos personales */}
-                        <div className="bg-light p-3 rounded mb-4 shadow-sm">
-                            <h5 className="fw-bold text-dark-blue mb-3">Datos Personales</h5>
-
-                            <label className="text-orange small fw-bold">Nombre Completo</label>
-                            <input type="text" name="nombre" className="form-control mb-3" value={formData.nombre} onChange={handleChange} required />
-
-                            <label className="text-orange small fw-bold">Cedula</label>
-                            <input type="text" name="cedula" className="form-control mb-2" value={formData.cedula} onChange={handleChange} required />
-                            <div className="row mb-3">
-                                <div className="col-6">
-                                    <input type="text" name="cedulaExtra1" className="form-control" value={formData.cedulaExtra1} onChange={handleChange} />
-                                </div>
-                                <div className="col-6">
-                                    <input type="text" name="cedulaExtra2" className="form-control" value={formData.cedulaExtra2} onChange={handleChange} />
-                                </div>
-                            </div>
-
-                            <label className="text-orange small fw-bold">Telefono</label>
-                            <input type="tel" name="telefono" className="form-control mb-3" value={formData.telefono} onChange={handleChange} required />
-
-                            <label className="text-orange small fw-bold">Email</label>
-                            <input type="email" name="email" className="form-control mb-3" value={formData.email} onChange={handleChange} required />
-                        </div>
-
-                        {/* datos del credito */}
-                        <div className="bg-light p-3 rounded mb-4 shadow-sm">
-                            <h5 className="fw-bold text-dark-blue mb-3">Datos Del Crédito</h5>
-
-                            <label className="text-orange small fw-bold">Tipo De Credito</label>
-                            <input type="text" name="tipoCredito" className="form-control mb-3" value={formData.tipoCredito} onChange={handleChange} required />
-
-                            <label className="text-orange small fw-bold">Monto Solicitado</label>
-                            <input type="number" name="monto" className="form-control mb-3" value={formData.monto} onChange={handleChange} required />
-
-                            <label className="text-orange small fw-bold">Plazo En Meses</label>
-                            <input type="number" name="plazo" className="form-control mb-3" value={formData.plazo} onChange={handleChange} required />
-
-                            <label className="text-orange small fw-bold">Destino Del Credito</label>
-                            <input type="text" name="destino" className="form-control mb-3" value={formData.destino} onChange={handleChange} required />
-                        </div>
-
-                        {/* datos laborales */}
-                        <div className="bg-light p-3 rounded mb-4 shadow-sm">
-                            <h5 className="fw-bold text-dark-blue mb-3">Datos Laborales</h5>
-
-                            <label className="text-orange small fw-bold">Empresa Donde Trabaja</label>
-                            <input type="text" name="empresa" className="form-control mb-3" value={formData.empresa} onChange={handleChange} required />
-
-                            <label className="text-orange small fw-bold">Cargo</label>
-                            <input type="text" name="cargo" className="form-control mb-3" value={formData.cargo} onChange={handleChange} required />
-
-                            <label className="text-orange small fw-bold">Ingresos Mensuales</label>
-                            <input type="number" name="ingresos" className="form-control mb-3" value={formData.ingresos} onChange={handleChange} required />
-                        </div>
-
-                        <button type="submit" className="btn btn-orange text-white fw-bold w-50 py-3 mb-2 d-block">Enviar Solicitud</button>
-                        <button type="button" className="btn btn-orange text-white fw-bold w-50 py-3 d-block" onClick={handleLimpiar}>Limpiar Formulario</button>
-                    </form>
+              <div className="row">
+                <div className="col-md-6 mb-3">
+                  <label className="text-orange small fw-bold">Teléfono</label>
+                  <input type="tel" name="telefono" className="form-control" value={formData.telefono} onChange={handleChange} required />
                 </div>
-
-                {/* parte derecha de la pagina*/}
-                <div className="col-md-5 d-flex flex-column align-items-center justify-content-center">
-                    <img src="/img/logo.png" alt="Logo" className="img-fluid mb-4 w-75 opacity-50" />
-
-                    {formData.monto > 0 && (
-                        <div className="text-center p-4 border rounded shadow-sm w-75">
-                            <p className="text-muted mb-1">Cuota mensual estimada:</p>
-                            <h2 className="fw-bold text-dark-blue">
-                                ${Math.round(cuotaEstimada).toLocaleString('es-CO')}
-                            </h2>
-                        </div>
-                    )}
-
-                    {enviado && (
-                        <div className="alert alert-success mt-4">
-                            Solicitud procesada con éxito.
-                        </div>
-                    )}
+                <div className="col-md-6 mb-3">
+                  <label className="text-orange small fw-bold">Email</label>
+                  <input type="email" name="email" className="form-control" value={formData.email} onChange={handleChange} required />
                 </div>
+              </div>
             </div>
+
+            {/* datos del credito */}
+            <div className="bg-light p-4 rounded mb-4 shadow-sm border-start border-orange border-4">
+              <h5 className="fw-bold text-dark-blue mb-3">Datos Del Crédito</h5>
+              
+              <div className="mb-3">
+                <label className="text-orange small fw-bold">Tipo De Crédito</label>
+                <select name="tipoCredito" className="form-select" value={formData.tipoCredito} onChange={handleChange} required>
+                  <option value="">Seleccione un crédito...</option>
+                  {/* Mapeado de los creditos */}
+                  {creditsData.map((credito) => (
+                    <option key={credito.id} value={credito.name}>
+                      {credito.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="row">
+                <div className="col-md-6 mb-3">
+                  <label className="text-orange small fw-bold">Monto Solicitado</label>
+                  <input type="number" name="monto" className="form-control" value={formData.monto} onChange={handleChange} required />
+                </div>
+                <div className="col-md-6 mb-3">
+                  <label className="text-orange small fw-bold">Plazo (Meses)</label>
+                  <select name="plazo" className="form-select" value={formData.plazo} onChange={handleChange}>
+                    <option value="12">12 Meses</option>
+                    <option value="24">24 Meses</option>
+                    <option value="36">36 Meses</option>
+                    <option value="48">48 Meses</option>
+                    <option value="60">60 Meses</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="mb-3">
+                <label className="text-orange small fw-bold">Destino Del Crédito</label>
+                <input type="text" name="destino" className="form-control" placeholder="Ej: Compra de vivienda, Viaje, etc." value={formData.destino} onChange={handleChange} required />
+              </div>
+            </div>
+
+            {/* datos laborales */}
+            <div className="bg-light p-4 rounded mb-4 shadow-sm border-start border-orange border-4">
+              <h5 className="fw-bold text-dark-blue mb-3">Datos Laborales</h5>
+              
+              <div className="mb-3">
+                <label className="text-orange small fw-bold">Empresa Donde Trabaja</label>
+                <input type="text" name="empresa" className="form-control" value={formData.empresa} onChange={handleChange} required />
+              </div>
+
+              <div className="row">
+                <div className="col-md-6 mb-3">
+                  <label className="text-orange small fw-bold">Cargo</label>
+                  <input type="text" name="cargo" className="form-control" value={formData.cargo} onChange={handleChange} required />
+                </div>
+                <div className="col-md-6 mb-3">
+                  <label className="text-orange small fw-bold">Ingresos Mensuales</label>
+                  <input type="number" name="ingresos" className="form-control" value={formData.ingresos} onChange={handleChange} required />
+                </div>
+              </div>
+            </div>
+
+            <div className="d-grid gap-3">
+              <button type="submit" className="btn btn-orange text-white fw-bold py-3 shadow-sm text-uppercase">Enviar Solicitud</button>
+              <button type="button" className="btn btn-outline-secondary fw-bold py-2 text-uppercase" onClick={handleLimpiar}>Limpiar Formulario</button>
+            </div>
+          </form>
         </div>
-    );
+
+        {/* lado derecho pagina */}
+        <div className="col-md-5">
+          <div className="sticky-top" style={{ top: '100px' }}>
+            <div className="text-center mb-5">
+               <img src="/img/logo.png" alt="Logo" className="img-fluid w-50" />
+            </div>
+            
+            <div className="card border-0 shadow-lg bg-dark-blue text-white p-4 rounded-4">
+              <h4 className="fw-bold mb-4 border-bottom pb-2">Resumen de Solicitud</h4>
+              <p className="mb-1 small opacity-75">Crédito seleccionado:</p>
+              <h5 className="text-orange fw-bold mb-4">{formData.tipoCredito || 'No seleccionado'}</h5>
+              
+              <div className="d-flex justify-content-between mb-2">
+                <span>Monto:</span>
+                <span className="fw-bold">${parseFloat(formData.monto || 0).toLocaleString('es-CO')}</span>
+              </div>
+              <div className="d-flex justify-content-between mb-4">
+                <span>Plazo:</span>
+                <span className="fw-bold">{formData.plazo} Meses</span>
+              </div>
+
+              <div className="bg-white text-dark-blue rounded-3 p-3 text-center">
+                <small className="fw-bold d-block text-muted mb-1">CUOTA ESTIMADA</small>
+                <h2 className="fw-bold mb-0">${Math.round(cuotaEstimada).toLocaleString('es-CO')}</h2>
+              </div>
+            </div>
+
+            {enviado && (
+              <div className="alert alert-success mt-4 border-0 shadow-sm animate__animated animate__bounceIn">
+                <i className="bi bi-check-circle-fill me-2"></i>
+                ¡Solicitud registrada correctamente!
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default Solicitar;
