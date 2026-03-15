@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import Inicio from './pages/Inicio';
 import Simulator from './pages/Simulator';
+import Solicitar from './pages/Solicitar';
 import './App.css';
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
             <div className="ms-auto">
               <Link to="/" className="text-white text-decoration-none me-4 fw-bold">INICIO</Link>
               <Link to="/simulator" className="text-white text-decoration-none fw-bold">SIMULADOR</Link>
+              <Link to="/solicitar" className="text-white text-decoration-none fw-bold">SOLICITAR</Link>
             </div>
           </div>
         </nav>
@@ -32,6 +34,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Inicio />} />
             <Route path="/simulator" element={<Simulator />} />
+            <Route path="/solicitar" element={<Solicitar />} />
           </Routes>
         </main>
 
