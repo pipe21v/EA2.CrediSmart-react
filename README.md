@@ -10,5 +10,5 @@ Estructura de Archivos
 ## Capturas de Pantalla
 
 ![inicio](public/img/captura1.png)
-![simulador]()
+![simulador](public/img/captura2.png)
 ![solicitar]()

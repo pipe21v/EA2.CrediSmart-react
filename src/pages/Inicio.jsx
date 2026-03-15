@@ -5,27 +5,29 @@ import CreditCard from '../components/CreditCard';
 const Inicio = () => {
   const [searchTerm, setSearchTerm] = useState('');
 
-  // Lógica de búsqueda en tiempo real
-  const filteredCredits = creditsData.filter((credito) =>
-    credito.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  // logica para barra de busqueda de banner inicio
+  const filteredCredits = creditsData.filter((credito) => {
+  const nombreLimpio = credito.name.toLowerCase();
+  const busquedaLimpia = searchTerm.toLowerCase().trim();
+  return nombreLimpio.includes(busquedaLimpia);
+});
 
   return (
     <>
-      {/* Banner de Inicio (Diseño Original) */}
-      <section className="bg-orange text-white py-5 px-4">
+      {/* Banner*/}
+      <section className="bg-orange text-white py-6 px-4">
         <div className="container">
           <div className="row align-items-center">
             <div className="col-md-7 text-start">
-              <h1 className="fw-bold display-4 mb-3" style={{ lineHeight: '1.1' }}>
+              <h1 className="fw-bold display-4 mb-3" style={{ lineHeight: '1.0' }}>
                 Seguridad En Cada Paso, <br /> Respaldo En Cada Meta
               </h1>
-              <p className="lead opacity-90 mb-4" style={{ maxWidth: '600px' }}>
+              <p className="lead opacity-90 mb-4" style={{ maxWidth: '700px' }}>
                 Rediseñamos el acceso al crédito. Combinamos tecnología inteligente con 
                 soluciones humanas para ofrecerte préstamos rápidos.
               </p>
               
-              {/* Buscador integrado en el banner */}
+              {/* Buscador del banner*/}
               <div className="input-group w-75 shadow-sm">
                 <span className="input-group-text bg-white border-0">
                   <i className="bi bi-search text-orange"></i>
@@ -51,7 +53,7 @@ const Inicio = () => {
         </div>
       </section>
 
-      {/* Listado de Productos */}
+      {/* Listados de productos crediticios*/}
       <main className="container py-5">
         <h2 className="fw-bold text-dark-blue mb-5 text-uppercase">Nuestros Productos</h2>
         <div className="row">
