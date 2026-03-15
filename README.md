@@ -11,7 +11,6 @@ React+vite, React router Dom, Bootstrap
 ## Instrucciones de Instalación
 1. clonar proyecto de github
 git clone https://github.com/pipe21v/EA2.CrediSmart-react.git
-
 2. Ejecutar `npm install` para instalar las dependencias.
 3. Ejecutar `npm run dev` para iniciar el servidor local.
 

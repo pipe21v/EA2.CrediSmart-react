@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const Simulator = () => {
-  // ingresar daatos captura de datos
-  const [monto, setMonto] = useState(1000000);
+  const [monto, setMonto] = useState("");
   const [plazo, setPlazo] = useState(12);
-  const tasaMensual = 0.018; 
+  const tasaMensual = 0.018;
 
   // Lógica para calcular cuota
   const calcularCuota = () => {
-    if (monto <= 0) return 0;
+    if (!monto || monto <= 0) return 0;
+
     const i = tasaMensual;
     const n = plazo;
     const cuota = (monto * i * Math.pow(1 + i, n)) / (Math.pow(1 + i, n) - 1);
@@ -19,7 +20,7 @@ const Simulator = () => {
 
   return (
     <div className="min-vh-100 bg-white">
-      {/* Header del Simulador */}
+      {/* Header */}
       <section className="bg-orange text-white py-5 px-4 text-center">
         <h1 className="fw-bold display-4 text-uppercase">Simulador de Crédito</h1>
         <div className="container mt-4 d-flex justify-content-center gap-5 d-none d-md-flex">
@@ -29,7 +30,7 @@ const Simulator = () => {
         </div>
       </section>
 
-      {/* Cuerpo del Simulador */}
+      {/* Cuerpo */}
       <div className="container py-5">
         <div className="row justify-content-center">
           <div className="col-md-10 shadow-lg rounded p-5 border">
@@ -38,7 +39,7 @@ const Simulator = () => {
             </h3>
 
             <div className="row">
-              {/* Columna de Entradas (Inputs) */}
+              {/*Entradas (Inputs) */}
               <div className="col-md-6">
                 <label className="fw-bold text-orange h5">Valor Del Crédito</label>
                 <input
@@ -46,7 +47,10 @@ const Simulator = () => {
                   className={`form-control form-control-lg border-0 border-bottom rounded-0 mb-2 ${monto > 500000000 ? 'is-invalid' : ''}`}
                   placeholder="Ej: 1000000"
                   value={monto}
-                  onChange={(e) => setMonto(Number(e.target.value))}
+                  onChange={(e) => {
+                    const val = e.target.value;
+                    setMonto(val === "" ? "" : Number(val));
+                  }}
                 />
 
                 {monto > 500000000 ? (
@@ -68,19 +72,19 @@ const Simulator = () => {
                   <option value="60">60 Meses</option>
                 </select>
 
-                <button className="btn btn-orange w-100 py-3 fw-bold text-white text-uppercase fs-5 shadow-sm">
+                <Link to="/solicitar" className="btn btn-orange w-100 py-3 fw-bold text-white text-uppercase fs-5 shadow-sm">
                   Solicitar Crédito
-                </button>
+                </Link>
               </div>
 
-              {/* Columna de Resultado (Output) */}
+              {/* Resultado (Output) */}
               <div className="col-md-6 bg-custom-gray d-flex flex-column justify-content-center align-items-center rounded p-4 text-center mt-4 mt-md-0">
-                <span className="fw-bold text-orange h4">CUOTA APROXIMADA</span>
+                <span className="fw-bold text-orange h4 text-uppercase">Cuota Aproximada</span>
                 <h1 className="display-4 fw-bold text-dark-blue my-3">
                   ${Math.round(cuotaFinal).toLocaleString('es-CO')}
                 </h1>
                 <p className="small text-muted px-4">
-                  Los datos son de referencia basados en una tasa del {tasaMensual * 100}% E.M y no representan el valor final.
+                  Los datos son de referencia basados en una tasa del {(tasaMensual * 100).toFixed(1)}% E.M y no representan el valor final.
                 </p>
               </div>
             </div>

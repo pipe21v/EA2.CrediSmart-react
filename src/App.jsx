@@ -22,8 +22,8 @@ function App() {
             </Link>
 
             <div className="ms-auto">
-              <Link to="/" className="text-white text-decoration-none me-4 fw-bold">INICIO</Link>
-              <Link to="/simulator" className="text-white text-decoration-none fw-bold">SIMULADOR</Link>
+              <Link to="/" className="text-white text-decoration-none me-3 fw-bold">INICIO</Link>
+              <Link to="/simulator" className="text-white text-decoration-none me-3 fw-bold">SIMULADOR</Link>
               <Link to="/solicitar" className="text-white text-decoration-none fw-bold">SOLICITAR</Link>
             </div>
           </div>
